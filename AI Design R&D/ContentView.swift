@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var selectedTab = 0
+    @State private var isMenuShowing = false
 
     // Custom colors
     let primaryColor = Color(red: 0.2, green: 0.5, blue: 0.9)
@@ -16,8 +17,13 @@ struct ContentView: View {
     let backgroundColor = Color(red: 0.95, green: 0.95, blue: 0.97)
 
     var body: some View {
-        TabView(selection: $selectedTab) {
-            HomeView(primaryColor: primaryColor)
+        SideMenuContainerView(
+            isMenuShowing: $isMenuShowing,
+            primaryColor: primaryColor,
+            secondaryColor: secondaryColor
+        ) {
+            TabView(selection: $selectedTab) {
+            HomeView(primaryColor: primaryColor, isMenuShowing: $isMenuShowing)
                 .tabItem {
                     Image(systemName: "house.fill")
                     Text("Home")
@@ -57,6 +63,7 @@ struct ContentView: View {
             UITabBar.appearance().scrollEdgeAppearance = appearance
         }
     }
+}
 }
 
 #Preview {
