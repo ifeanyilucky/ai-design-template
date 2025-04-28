@@ -9,13 +9,14 @@ import SwiftUI
 
 struct HomeView: View {
     let primaryColor: Color
-    
+    @Binding var isMenuShowing: Bool
+
     // Sample data for the home screen
     let featuredItems = [
-        "AI Design Tools", "Machine Learning Models", "Neural Networks", 
+        "AI Design Tools", "Machine Learning Models", "Neural Networks",
         "Computer Vision", "Natural Language Processing"
     ]
-    
+
     var body: some View {
         NavigationView {
             ScrollView {
@@ -29,13 +30,13 @@ struct HomeView: View {
                                 endPoint: .bottomTrailing
                             ))
                             .frame(height: 200)
-                        
+
                         VStack(alignment: .leading, spacing: 8) {
                             Text("AI Design R&D")
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
                                 .foregroundColor(.white)
-                            
+
                             Text("Explore the future of AI design")
                                 .font(.headline)
                                 .foregroundColor(.white.opacity(0.9))
@@ -43,14 +44,14 @@ struct HomeView: View {
                         .padding()
                     }
                     .padding(.horizontal)
-                    
+
                     // Featured section
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Featured")
                             .font(.title2)
                             .fontWeight(.bold)
                             .padding(.horizontal)
-                        
+
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 15) {
                                 ForEach(featuredItems, id: \.self) { item in
@@ -63,7 +64,7 @@ struct HomeView: View {
                                                     .font(.largeTitle)
                                                     .foregroundColor(primaryColor)
                                             )
-                                        
+
                                         Text(item)
                                             .font(.headline)
                                             .foregroundColor(.primary)
@@ -79,14 +80,14 @@ struct HomeView: View {
                             .padding(.horizontal)
                         }
                     }
-                    
+
                     // Recent activity section
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Recent Activity")
                             .font(.title2)
                             .fontWeight(.bold)
                             .padding(.horizontal)
-                        
+
                         ForEach(1...3, id: \.self) { item in
                             HStack(spacing: 15) {
                                 Circle()
@@ -96,18 +97,18 @@ struct HomeView: View {
                                         Image(systemName: "bell.fill")
                                             .foregroundColor(primaryColor)
                                     )
-                                
+
                                 VStack(alignment: .leading, spacing: 5) {
                                     Text("Activity \(item)")
                                         .font(.headline)
-                                    
+
                                     Text("Recent update on your AI design project")
                                         .font(.subheadline)
                                         .foregroundColor(.secondary)
                                 }
-                                
+
                                 Spacer()
-                                
+
                                 Text("Now")
                                     .font(.caption)
                                     .foregroundColor(.secondary)
@@ -125,6 +126,15 @@ struct HomeView: View {
             .background(Color(UIColor.systemGroupedBackground))
             .navigationBarTitle("Home", displayMode: .large)
             .navigationBarItems(
+                leading: Button(action: {
+                    withAnimation(.spring()) {
+                        isMenuShowing.toggle()
+                    }
+                }) {
+                    Image(systemName: "line.horizontal.3")
+                        .font(.title3)
+                        .foregroundColor(primaryColor)
+                },
                 trailing: Button(action: {}) {
                     Image(systemName: "bell")
                         .foregroundColor(primaryColor)
@@ -135,5 +145,8 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView(primaryColor: Color(red: 0.2, green: 0.5, blue: 0.9))
+    HomeView(
+        primaryColor: Color(red: 0.2, green: 0.5, blue: 0.9),
+        isMenuShowing: .constant(false)
+    )
 }
